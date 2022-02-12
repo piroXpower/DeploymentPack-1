@@ -1,0 +1,44 @@
+_get_repolink () {
+    local regex
+    regex='(https?)://github.com/.+/.+'
+    if [[ $RIZ_REPO == "spamub" ]]
+    then
+        echo "aHR0cHM6Ly9naXRodWIuY29tL1RlYW1SYWljaHUvU3BhbVVCL2FyY2hpdmUvbWFpbi56aXA=" | base64 -d
+    elif [[ $RIZ_REPO == "SpamUB" ]]
+    then
+        echo "aHR0cHM6Ly9naXRodWIuY29tL1RlYW1SYWljaHUvU3BhbVVCL2FyY2hpdmUvbWFpbi56aXA=" | base64 -d
+    elif [[ $RIZ_REPO =~ $regex ]]
+    then
+        if [[ $RIZ_REPO_BRANCH ]]
+        then
+            echo "${RIZ_REPO}/archive/${RIZ_REPO_BRANCH}.zip"
+        else
+            echo "${RIZ_REPO}/archive/main.zip"
+        fi
+    else
+        echo "aHR0cHM6Ly9naXRodWIuY29tL1RlYW1SYWljaHUvU3BhbVVCL2FyY2hpdmUvbWFpbi56aXA=" | base64 -d
+    fi
+}
+
+
+_set_bot () {
+    local zippath
+    zippath="SpamUB.zip"
+    echo "  Downloading source code ..."
+    wget -q $(_get_repolink) -O "$zippath"
+    echo "  Unpacking Data ..."
+    RIZPATH=$(zipinfo -1 "$zippath" | grep -v "/.");
+    unzip -qq "$zippath"
+    echo "Done"
+    echo "  Cleaning ..."
+    rm -rf "$zippath"
+    sleep 5
+    cd $RIZPATH
+    echo "  Starting.  Spamming Devices... "
+    echo " 𝙎𝙋𝘼𝙈 ✘ 𝙐𝙎𝙀𝙍𝘽𝙊𝙏 "
+
+    python3 ./setup/updater.py ./requirements.txt requirements.txt
+    python3 -m RaichUB
+}
+
+_set_bot
