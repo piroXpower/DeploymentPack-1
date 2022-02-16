@@ -1,6 +1,6 @@
 FROM nikolaik/python-nodejs:latest
 
-RUN git clone https://github.com/H1M4N5HU0P/MAFIA-USERBOT.git /root/userbot
+RUN git clone https://github.com/VEXERAOP/LowdaLahsun.git/root/LowdaLahsun
 
 RUN pip install --upgrade pip
 
