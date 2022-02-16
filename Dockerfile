@@ -1,13 +1,9 @@
-FROM sandy1709/catuserbot:alpine
-
-#clonning repo 
-RUN git clone https://github.com/TeamRaichu/SpamUB.git /SpamUB
-#working directory 
-WORKDIR /root/SpamUB
-
-# Install requirements
-RUN pip3 install -U -r requirements.txt
-
-ENV PATH="/home/SpamUB/bin:$PATH"
-
-CMD ["python3","-m","RaichUB"]
+FROM nikolaik/python-nodejs:latest
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ffmpeg \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+COPY . /app/
+WORKDIR /app/
+RUN pip3 install --no-cache-dir --upgrade --requirement requirements.txt
+CMD python3 Music.py
