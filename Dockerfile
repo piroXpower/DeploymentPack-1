@@ -1,6 +1,6 @@
 FROM nikolaik/python-nodejs:latest
 
-RUN git clone https://github.com/VEXERAOP/LowdaLahsun.git/root/LowdaLahsun
+RUN git clone https://github.com/VEXERAOP/LowdaLahsun.git
 
 RUN pip install --upgrade pip
 
